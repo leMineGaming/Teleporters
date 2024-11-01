@@ -1,0 +1,7 @@
+name: Teleporters
+version: '1.0-SNAPSHOT'
+main: org.leminegaming.teleporters.Teleporters
+api-version: '1.21'
+authors: [ leMineGaming ]
+description: Minecraft Plugin for managing permissions
+website: http://permstool.leminegaming.software
