@@ -25,3 +25,33 @@
 1. download from releases or build yourself using maven
 2. add to plugins directory
 3. Run your Server
+
+# Teleporter Anleitung
+
+Hinweis: Maximal ?? Teleporter pro Person möglich.
+
+### 1. Positionen setzen
+
+Beide Positionen müssen auf einem Emerald Block sein.
+Commands zum Positionen setzen:
+
+``/teleport1``
+``/teleport2``
+
+### 2. Den Teleporter erstellen
+
+*Öffentlicher Teleporter (Jeder kann ihn benutzen)*
+``/setupteleporter``
+
+*Privater Teleporter (Nur du kannst ihn benutzen)*
+``/setupteleporter true``
+
+### 3. Den Teleporter verwenden
+
+Einfach auf den Teleporter laufen.
+(Hinweis: Du kannst dich nur alle 5 Sekunden teleportieren)
+
+### 4. Den Teleporter löschen
+
+Einen der beiden Emeraldblöcke abbauen
+Nachricht im chat sollte ``Teleporter removed.``
