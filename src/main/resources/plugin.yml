@@ -1,7 +1,30 @@
 name: Teleporters
-version: '1.0-SNAPSHOT'
+version: '1.1-SNAPSHOT'
 main: org.leminegaming.teleporters.Teleporters
 api-version: '1.21'
 authors: [ leMineGaming ]
 description: Minecraft Plugin for managing permissions
-website: http://permstool.leminegaming.software
+website: http://teleporters.leminegaming.software
+commands:
+  setupteleporter:
+    description: Set up a teleport block on an emerald block.
+    usage: /setupteleporter <private:true/false>
+  teleport1:
+    description: Set up teleport position 1.
+    usage: /teleport1
+  teleport2:
+    description: Set up teleport position 2.
+    usage: /teleport2
+permissions:
+  teleporters.create:
+    description: Allows the player to create teleporters.
+    default: false
+  teleporters.use:
+    description: Allows the player to use teleporters.
+    default: false
+  teleporters.bypass:
+    description: Allows the player to use private teleporters they don’t own.
+    default: op
+  teleporters.bypasslimit:
+    description: Allows the player to bypass the limit on teleporters.
+    default: op
