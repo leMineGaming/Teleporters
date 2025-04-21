@@ -14,12 +14,16 @@
 | BungeeCord  | ❌  |
 | Bukkit Legacy  | ❌  |
 
-| Version  | Support |
-| ------------- | ------------- |
-| 1.21.3  | ❌  |
-| 1.21.2  | ❌  |
-| 1.21.1  | ✅  |
-| 1.20.X and older  | ❌  |
+| Version          | Support |
+|------------------|---------|
+| 1.21.5           | ✅       |
+| 1.21.4           | ❌       |
+| 1.21.3           | ❌       |
+| 1.21.2           | ❌       |
+| 1.21.1           | ✅*      |
+| 1.20.X and older | ❌       |
+
+*Only older release
 
 # Installation
 1. download from releases or build yourself using maven
