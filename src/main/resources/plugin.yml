@@ -1,9 +1,9 @@
 name: Teleporters
-version: '1.1-SNAPSHOT'
+version: '1.2-SNAPSHOT'
 main: org.leminegaming.teleporters.Teleporters
 api-version: '1.21'
 authors: [ leMineGaming ]
-description: Minecraft Plugin for managing permissions
+description: Minecraft Plugin that creates teleporters
 website: http://teleporters.leminegaming.software
 commands:
   setupteleporter:
