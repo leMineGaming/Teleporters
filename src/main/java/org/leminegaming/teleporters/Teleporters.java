@@ -9,13 +9,18 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.CommandExecutor;
+import org.bukkit.Particle;
+import org.bukkit.Sound;
 
 import java.io.File;
 import java.io.IOException;
@@ -44,6 +49,14 @@ public final class Teleporters extends JavaPlugin implements Listener {
         getCommand("teleport1").setExecutor(new TeleportCommand());
         getCommand("teleport2").setExecutor(new TeleportCommand());
         getCommand("setupteleporter").setExecutor(new TeleportCommand());
+
+        // Schedule repeating task for particle effects
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                showParticles();
+            }
+        }.runTaskTimer(this, 0L, 20L); // Run every second (20 ticks)
 
         getLogger().info("TeleportPlugin enabled.");
     }
@@ -83,6 +96,50 @@ public final class Teleporters extends JavaPlugin implements Listener {
             teleportPoints.put(emeraldLocation1, new TeleportInfo(emeraldLocation2, owner, isPrivate));
             teleportPoints.put(emeraldLocation2, new TeleportInfo(emeraldLocation1, owner, isPrivate));
         }
+    }
+
+    private void showParticles() {
+        for (Location loc : teleportPoints.keySet()) {
+            if (isPlayerNearby(loc, 10)) { // Check if any player is within 10 blocks
+                Location destination = teleportPoints.get(loc).destination;
+                Block blockAbove1 = destination.clone().add(0, 1, 0).getBlock();
+                Block blockAbove2 = destination.clone().add(0, 2, 0).getBlock();
+
+                boolean isBlocked = (blockAbove1.getType() != Material.AIR && !isSign(blockAbove1)) ||
+                        (blockAbove2.getType() != Material.AIR && !isSign(blockAbove2));
+
+                if (isBlocked) {
+                    loc.getWorld().spawnParticle(Particle.DUST, loc.clone().add(0.5, 1.5, 0.5), 5, new Particle.DustOptions(org.bukkit.Color.RED, 1));
+                } else {
+                    loc.getWorld().spawnParticle(Particle.PORTAL, loc.clone().add(0.5, 1.5, 0.5), 5, 0.2, 0.2, 0.2, 0.01);
+                }
+            }
+        }
+    }
+
+
+
+    private boolean isSign(Block block) {
+        Material type = block.getType();
+        return type == Material.OAK_SIGN || type == Material.OAK_WALL_SIGN ||
+                type == Material.SPRUCE_SIGN || type == Material.SPRUCE_WALL_SIGN ||
+                type == Material.BIRCH_SIGN || type == Material.BIRCH_WALL_SIGN ||
+                type == Material.JUNGLE_SIGN || type == Material.JUNGLE_WALL_SIGN ||
+                type == Material.ACACIA_SIGN || type == Material.ACACIA_WALL_SIGN ||
+                type == Material.DARK_OAK_SIGN || type == Material.DARK_OAK_WALL_SIGN ||
+                type == Material.CRIMSON_SIGN || type == Material.CRIMSON_WALL_SIGN ||
+                type == Material.CHERRY_SIGN || type == Material.CHERRY_WALL_SIGN ||
+                type == Material.LEVER || type == Material.STONE_BUTTON ||
+                type == Material.WARPED_SIGN || type == Material.WARPED_WALL_SIGN;
+    }
+
+    private boolean isPlayerNearby(Location location, double radius) {
+        for (Player player : location.getWorld().getPlayers()) {
+            if (player.getLocation().distance(location) <= radius) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void saveTeleportsToFile() {
@@ -205,14 +262,20 @@ public final class Teleporters extends JavaPlugin implements Listener {
             // If cooldown is clear, proceed with teleport
             if (teleportInfo.isPrivate && !teleportInfo.owner.equals(player.getUniqueId())
                     && !player.hasPermission("teleporters.bypass")) {
-                player.sendMessage(ChatColor.RED +"[Teleporter] This teleporter is private.");
+                player.sendMessage(ChatColor.RED + "[Teleporter] This teleporter is private.");
                 return;
             }
 
             // Perform teleport
-            Location destination = teleportInfo.destination.clone().add(0, 1, 0);
+            Location destination = teleportInfo.destination.clone().add(0.5, 1, 0.5);
             player.teleport(destination, PlayerTeleportEvent.TeleportCause.PLUGIN);
-            player.sendMessage(ChatColor.GREEN +"Teleported to " + teleportInfo.destination.toVector());
+            player.sendMessage(ChatColor.GREEN + "Teleported to " + teleportInfo.destination.toVector());
+
+            // Play enderpearl teleport sound
+            player.playSound(player.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1.0f, 1.0f);
+
+            // Spawn particle effect at destination
+            player.getWorld().spawnParticle(Particle.PORTAL, destination, 100);
 
             // Make player invincible for 2 seconds
             UUID playerId = player.getUniqueId();
