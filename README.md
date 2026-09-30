@@ -14,16 +14,29 @@
 | BungeeCord  | ❌  |
 | Bukkit Legacy  | ❌  |
 
-| Version          | Support |
-|------------------|---------|
-| 1.21.5           | ✅       |
-| 1.21.4           | ❌       |
-| 1.21.3           | ❌       |
-| 1.21.2           | ❌       |
-| 1.21.1           | ✅*      |
-| 1.20.X and older | ❌       |
+One jar supports every version listed below.
 
-*Only older release
+| Version          | Support | Java |
+|------------------|---------|------|
+| 26.3             | ✅       | 25   |
+| 26.2             | ✅       | 25   |
+| 26.1             | ✅       | 25   |
+| 1.21.11          | ✅       | 21   |
+| 1.21.10          | ✅       | 21   |
+| 1.21.9           | ✅       | 21   |
+| 1.21.8           | ✅       | 21   |
+| 1.21.7           | ✅       | 21   |
+| 1.21.6           | ✅       | 21   |
+| 1.21.5           | ✅       | 21   |
+| 1.21.4           | ✅       | 21   |
+| 1.21.3           | ✅       | 21   |
+| 1.21.2           | ✅       | 21   |
+| 1.21.1           | ✅       | 21   |
+| 1.20.X and older | ❌       |      |
+
+The plugin declares `api-version: 1.21`, which is a minimum: it is built
+against the newest Paper API (26.3) but only uses API that has existed since
+1.21.1, so the same jar loads on all supported versions.
 
 # Installation
 1. download from releases or build yourself using maven

@@ -6,12 +6,16 @@
 
     <groupId>org.leminegaming</groupId>
     <artifactId>teleporters</artifactId>
-    <version>1.2-SNAPSHOT</version>
+    <version>1.3-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>teleporters</name>
 
     <properties>
+        <!-- Target Java 21 bytecode so a single jar runs on Java 21 servers
+             (Minecraft 1.21.1 - 1.21.11) as well as Java 25 servers
+             (Minecraft 26.1 - 26.3). Building against the 26.3 API requires
+             a JDK 25+ compiler, but the produced classes stay Java 21. -->
         <java.version>21</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -24,8 +28,7 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.13.0</version>
                 <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
+                    <release>${java.version}</release>
                 </configuration>
             </plugin>
             <plugin>
@@ -62,10 +65,14 @@
     </repositories>
 
     <dependencies>
+        <!-- Built against the latest Paper API (26.3). The plugin only uses
+             long-stable Bukkit API that is present in every version from
+             1.21.1 through 26.3, so the resulting jar loads on all of them.
+             paper-api is provided by the server and never shaded. -->
         <dependency>
             <groupId>io.papermc.paper</groupId>
             <artifactId>paper-api</artifactId>
-            <version>1.21.5-R0.1-SNAPSHOT</version>
+            <version>26.3.build.140-beta</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

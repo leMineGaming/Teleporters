@@ -17,10 +17,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - name: Set up JDK 11
+    # The Paper API for 26.3 is compiled for Java 25, so a JDK 25+ compiler
+    # is required to build against it. The plugin itself still targets
+    # Java 21 bytecode so it runs on 1.21.x (Java 21) and 26.x (Java 25).
+    - name: Set up JDK 25
       uses: actions/setup-java@v4
       with:
-        java-version: '11'
+        java-version: '25'
         distribution: 'temurin'
         server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
         settings-path: ${{ github.workspace }} # location for the settings.xml file

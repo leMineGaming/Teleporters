@@ -1,10 +1,13 @@
 name: Teleporters
-version: '1.2-SNAPSHOT'
+version: '${project.version}'
 main: org.leminegaming.teleporters.Teleporters
+# api-version is a *minimum*: the server refuses to load a plugin whose
+# api-version is newer than itself. Keep this at the oldest supported
+# version (1.21) so one jar loads on 1.21.1 through 26.3.
 api-version: '1.21'
 authors: [ leMineGaming ]
 description: Minecraft Plugin that creates teleporters
-website: http://teleporters.leminegaming.software
+website: https://leminegaming.github.io/teleporters
 commands:
   setupteleporter:
     description: Set up a teleport block on an emerald block.
